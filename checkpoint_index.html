@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkpoint Clothing Co - Gaming Apparel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ff6b35;
+            --secondary: #004e89;
+            --accent: #00d4ff;
+            --dark: #0a0e27;
+            --light: #f5f5f5;
+            --text: #1a1a1a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,107,53,0.1)"/><circle cx="80" cy="80" r="3" fill="rgba(0,212,255,0.1)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #ff5722;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Filters Section */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Products Grid */
+        .products-section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image::before {
+            content: attr(data-emoji);
+            font-size: 4rem;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-category {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .add-to-cart-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-modal.open {
+            display: flex;
+        }
+
+        .cart-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .cart-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .cart-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-name {
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: var(--primary);
+            margin-right: 1rem;
+        }
+
+        .cart-item-remove {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+        }
+
+        .cart-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            text-align: right;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #ff5722;
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            nav {
+                gap: 1rem;
+            }
+
+            nav a {
+                display: none;
+            }
+
+            .cart-icon {
+                display: flex;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+
+            .filters {
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">⚙️</div>
+                <span>CHECKPOINT</span>
+            </div>
+            <nav>
+                <a href="#home">Home</a>
+                <a href="#products">Shop</a>
+                <a href="#about">About</a>
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Level Up Your Style</h1>
+            <p>Premium gaming apparel for every gamer. From retro vibes to cyberpunk aesthetics.</p>
+            <button class="cta-button" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                Shop Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="container" id="products">
+        <h2>Our Collection</h2>
+        
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+            <button class="filter-btn" onclick="filterProducts('fps')">FPS</button>
+            <button class="filter-btn" onclick="filterProducts('rpg')">RPG</button>
+            <button class="filter-btn" onclick="filterProducts('indie')">Indie</button>
+            <button class="filter-btn" onclick="filterProducts('retro')">Retro</button>
+            <button class="filter-btn" onclick="filterProducts('esports')">Esports</button>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be loaded here -->
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+            <h2 class="cart-title">Your Cart</h2>
+            <div id="cart-items">
+                <div class="cart-empty">Your cart is empty</div>
+            </div>
+            <div class="cart-total" id="cart-total" style="display: none;">
+                Total: $<span id="total-price">0.00</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn" onclick="checkout()" disabled>
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Checkpoint</h3>
+                <p>Premium gaming apparel designed for gamers, by gamers. Supporting every gaming genre and culture.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#products">Shop</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <ul>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">Email</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Checkpoint Clothing Co. All rights reserved. | Gaming Apparel Since 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        // Product Data
+        const products = [
+            {
+                id: 1,
+                name: 'Git Gud or Die Trying',
+                category: 'fps',
+                price: 22.99,
+                emoji: '⚔️',
+                description: 'Elden Ring meme culture tee',
+                type: 'T-Shirt'
+            },
+            {
+                id: 2,
+                name: 'Synthwave Gamer',
+                category: 'retro',
+                price: 22.99,
+                emoji: '🌆',
+                description: '80s arcade aesthetic',
+                type: 'T-Shirt'
+            },
+            {
+                id: 3,
+                name: 'Loot Goblin',
+                category: 'rpg',
+                price: 22.99,
+                emoji: '🧌',
+                description: 'D&D/BG3 community humor',
+                type: 'T-Shirt'
+            },
+            {
+                id: 4,
+                name: 'Cozy Gamer Club',
+                category: 'indie',
+                price: 22.99,
+                emoji: '☕',
+                description: 'Wholesome gaming vibes',
+                type: 'T-Shirt'
+            },
+            {
+                id: 5,
+                name: 'Cyberpunk Hacker',
+                category: 'fps',
+                price: 22.99,
+                emoji: '🌐',
+                description: 'Sci-fi neon aesthetic',
+                type: 'T-Shirt'
+            },
+            {
+                id: 6,
+                name: 'Speedrunner Elite',
+                category: 'retro',
+                price: 22.99,
+                emoji: '🏃',
+                description: 'For those who play fast',
+                type: 'T-Shirt'
+            },
+            {
+                id: 7,
+                name: 'Esports Champion',
+                category: 'esports',
+                price: 22.99,
+                emoji: '🏆',
+                description: 'Competitive gaming gear',
+                type: 'T-Shirt'
+            },
+            {
+                id: 8,
+                name: 'Indie Developer',
+                category: 'indie',
+                price: 22.99,
+                emoji: '💻',
+                description: 'Made by gamers, for gamers',
+                type: 'T-Shirt'
+            },
+            {
+                id: 9,
+                name: 'RPG Legend',
+                category: 'rpg',
+                price: 28.99,
+                emoji: '👑',
+                description: 'Premium hoodie',
+                type: 'Hoodie'
+            },
+            {
+                id: 10,
+                name: 'FPS Warrior',
+                category: 'fps',
+                price: 28.99,
+                emoji: '⚡',
+                description: 'Premium hoodie',
+                type: 'Hoodie'
+            },
+            {
+                id: 11,
+                name: 'Retro Arcade',
+                category: 'retro',
+                price: 28.99,
+                emoji: '🕹️',
+                description: 'Classic gaming hoodie',
+                type: 'Hoodie'
+            },
+            {
+                id: 12,
+                name: 'Gaming Meme Lord',
+                category: 'indie',
+                price: 22.99,
+                emoji: '😂',
+                description: 'Funny gaming culture',
+                type: 'T-Shirt'
+            }
+        ];
+
+        let cart = [];
+        let currentFilter = 'all';
+
+        // Initialize
+        function init() {
+            renderProducts(products);
+            loadCart();
+        }
+
+        // Render Products
+        function renderProducts(productsToRender) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            productsToRender.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image" data-emoji="${product.emoji}">
+                        <div class="product-badge">${product.type}</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-description">${product.description}</div>
+                        <div class="product-footer">
+                            <span class="product-price">$${product.price.toFixed(2)}</span>
+                            <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Add</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Products
+        function filterProducts(category) {
+            currentFilter = category;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter and render
+            const filtered = category === 'all' 
+                ? products 
+                : products.filter(p => p.category === category);
+            
+            renderProducts(filtered);
+        }
+
+        // Cart Functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            saveCart();
+            updateCartUI();
+            showNotification(`${product.name} added to cart!`);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-modal').classList.toggle('open');
+        }
+
+        function updateCartUI() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const totalPrice = document.getElementById('total-price');
+
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<div class="cart-empty">Your cart is empty</div>';
+                cartTotal.style.display = 'none';
+                checkoutBtn.disabled = true;
+            } else {
+                cartItemsDiv.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <div class="cart-item-name">${item.name} x${item.quantity}</div>
+                        <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                `).join('');
+
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                totalPrice.textContent = total.toFixed(2);
+                cartTotal.style.display = 'block';
+                checkoutBtn.disabled = false;
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const items = cart.map(item => `${item.name} (x${item.quantity})`).join(', ');
+            
+            alert(`Order Summary:\n\n${items}\n\nTotal: $${total.toFixed(2)}\n\nRedirecting to Teespring...`);
+            
+            // In production, this would redirect to Teespring checkout
+            // window.location.href = 'https://teespring.com/...';
+            
+            cart = [];
+            saveCart();
+            updateCartUI();
+            toggleCart();
+        }
+
+        function saveCart() {
+            localStorage.setItem('checkpoint-cart', JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            const saved = localStorage.getItem('checkpoint-cart');
+            if (saved) {
+                cart = JSON.parse(saved);
+                updateCartUI();
+            }
+        }
+
+        function showNotification(message) {
+            // Simple notification (could be enhanced)
+            console.log(message);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
